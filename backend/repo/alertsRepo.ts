@@ -1,16 +1,6 @@
 import { ObjectId } from "mongodb";
 import { collection } from "../db/db-conn.js";
-
-
-interface Alert {
-    displayName: string,
-    description: string,
-    priority: "Low" | "Medium" | "High" | "Critical",
-    arena: "North" | "South" | "Center",
-    status: "Active" | "Handled",
-    lon: number,
-    lat: number
-}
+import type { Alert } from "../types.js";
 
 
 
