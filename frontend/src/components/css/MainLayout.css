@@ -1,0 +1,8 @@
+.layout-body {
+    display: flex;
+    flex-direction: column;
+}
+
+.layout-main {
+    flex: 1;
+}

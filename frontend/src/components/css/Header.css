@@ -1,0 +1,8 @@
+.header-nav {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    padding: 1rem;
+    background-color: rgb(249, 249, 204);
+    margin-bottom: 1rem;
+}

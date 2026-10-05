@@ -1,0 +1,19 @@
+.main-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.success-message {
+    color:  green;
+}
+
+.error-message {
+    color: red
+}
+
+.new-alert-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
