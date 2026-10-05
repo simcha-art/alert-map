@@ -32,3 +32,9 @@
 ## DB
 
 השתמשתי בדאטאבייס לא רצליוני מסוג MONGODB, מאחר ויש כאן רק טבלה אחת של התראות, כך שאין צורך בקשרים בין טבלאות שונות, ולכן אין יתרון לדאטאבייס רלציוני.
+
+## HTTP Statuses
+422 => for id which cannot be changed to ObjectId => unprocessable
+400 => in create and update alerts, if the feild should not be in the alert, or if the type isn't fit the required type.
+404 => for updating, deleting or getting alert that doesn't exist
+500 => internal server error, which is not the user's fault
