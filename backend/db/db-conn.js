@@ -1,7 +1,7 @@
 import { MongoClient } from "mongodb";
 import env from "dotenv";
 
-env.config({path: "db/.env"});
+env.config({ path: "db/.env" });
 
 const MONGODB_LONG_URI = process.env.MONGODB_LONG_URI;
 
@@ -19,4 +19,5 @@ async function connect() {
     }
 }
 
-export {connect}
+const collection = await connect();
+export { collection };
