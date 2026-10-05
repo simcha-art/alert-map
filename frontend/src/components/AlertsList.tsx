@@ -6,16 +6,16 @@ function AlertsList() {
     const { loading, error } = result;
     let data = result.data as Alert[];
 
-    if (loading) return <p className="loading-message">loading...</p>;
-    if (error) return <p className="error-message">Error occured: {error}</p>;
-
+    if (loading) return (<p className="loading-message">loading...</p>);
+    if (error) return (<p className="error-message">Error occured: {error}</p>);
+    console.log(data)
     return (
         <>
             {data.length > 0 ? (
                 <ul>
-                    {data.map((alert) => {
-                        return <AlertCard alert={alert} key={alert.id} />;
-                    })}
+                    {data.map((alert) => 
+                         <AlertCard alert={alert} key={alert.id} />
+                    )}
                 </ul>
             ) : (
                 <p>There are no alerts yet</p>
