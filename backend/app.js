@@ -1,12 +1,22 @@
 import express from 'express'
 import { route as alertsRoute } from './router/alerts-route.js'
 import env from 'dotenv'
+import { logger } from './middleware/logger.js'
+import { errorHandler } from './middleware/errorHandler.js'
+
+
 env.config()
 
 const PORT = process.env.PORT
 
 const app = express()
 
+app.use(express.json())
+app.use(logger())
+
+
 app.use("/api/alerts", alertsRoute)
+
+app.use(errorHandler())
 
 app.listen(PORT, () => console.log('listen to port: ', PORT))
