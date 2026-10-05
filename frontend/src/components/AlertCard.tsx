@@ -1,4 +1,5 @@
 import type { Alert } from "../types"
+import "./css/AlertCard.css"
 
 interface CardProp {
     alert: Alert

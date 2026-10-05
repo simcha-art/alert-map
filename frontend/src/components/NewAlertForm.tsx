@@ -1,14 +1,15 @@
 import { useState } from "react";
 import type { Alert } from "../types.ts";
+import "./css/NewAlertForm.css"
 
 function NewAlertForm() {
     const [displayName, setName] = useState<string>("");
     const [description, setDescription] = useState<string>("");
     const [priority, setPriority] = useState<
-        "Low" | "Medium" | "High" | "Critical" | ""
-    >("");
-    const [arena, setArena] = useState<"North" | "South" | "Center" | "">("");
-    const [status, setStatus] = useState<"Active" | "Handled" | "">("");
+        "Low" | "Medium" | "High" | "Critical"
+    >("Low");
+    const [arena, setArena] = useState<"North" | "South" | "Center" >("Center");
+    const [status, setStatus] = useState<"Active" | "Handled" >("Active");
     const [lon, setLon] = useState<number>(0);
     const [lat, setLat] = useState<number>(0);
 
@@ -55,7 +56,7 @@ function NewAlertForm() {
         }
     }
     return (
-        <>
+        <div className="main-container">
             {data && <p className="success-message">Alert added successfully</p>}
             {error && <p className="error-message">{error}</p>}
             <form
@@ -71,7 +72,7 @@ function NewAlertForm() {
                     id="name"
                     required
                     value={displayName}
-                    onChange={(e) => e.target.value}
+                    onChange={(e) => setName(e.target.value)}
                 />
                 <label htmlFor="description">description</label>
                 <input
@@ -109,19 +110,6 @@ function NewAlertForm() {
                     <option value="South">South</option>
                     <option value="Center">Center</option>
                 </select>
-                <label htmlFor="arena">arena</label>
-                <select
-                    id="arena"
-                    onChange={(e) => setArena(e.target.value)}
-                    value={arena}
-                    required
-                >
-                    <option value="North" defaultChecked>
-                        North
-                    </option>
-                    <option value="South">South</option>
-                    <option value="Center">Center</option>
-                </select>
 
                 <label htmlFor="status">status</label>
                 <select
@@ -138,19 +126,21 @@ function NewAlertForm() {
 
                 <label htmlFor="lat">latitude</label>
                 <input
-                    type="range"
+                    type="number"
+                    step={0.1}
                     id="lat"
                     value={lat}
-                    onChange={(e) => setLat(e.target.value)}
+                    onChange={(e) => setLat(+e.target.value)}
                     required
                 />
 
                 <label htmlFor="lon">longitude</label>
                 <input
-                    type="range"
+                    type="number"
+                    step={0.1}
                     id="lon"
                     value={lon}
-                    onChange={(e) => setLon(e.target.value)}
+                    onChange={(e) => setLon(+e.target.value)}
                     required
                 />
 
@@ -158,7 +148,7 @@ function NewAlertForm() {
                     {loading ? "loading..." : "send"}
                 </button>
             </form>
-        </>
+        </div>
     );
 }
 
