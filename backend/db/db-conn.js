@@ -1,7 +1,7 @@
 import { MongoClient } from "mongodb";
 import env from "dotenv";
 
-env.config();
+env.config({path: "db/.env"});
 
 const MONGODB_LONG_URI = process.env.MONGODB_LONG_URI;
 
