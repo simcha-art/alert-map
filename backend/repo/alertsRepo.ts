@@ -38,7 +38,7 @@ export const repo = {
     getAll: async () => {
         const result = await collection?.find()
         const docsList = await result?.toArray()
-        return docsList?.map(doc => ({...doc, _id: doc._id.toString()}))
+        return docsList?.map(doc => ({...doc, id: doc._id.toString()}))
     },
     getById: async (id: string) => {
         const _id = new ObjectId(id)
@@ -46,6 +46,6 @@ export const repo = {
         if (!doc) {
             return false
         }
-        return {...doc, _id: doc?._id.toString()}
+        return {...doc, id: doc?._id.toString()}
     },
 }
