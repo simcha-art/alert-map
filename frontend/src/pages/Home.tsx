@@ -3,7 +3,7 @@ import AlertsList from "../components/AlertsList"
 function Home() {
   return (
     <>
-        <p>ALERTS LIST</p>
+        <h2>ALERTS LIST</h2>
         <AlertsList />
     </>
   )
