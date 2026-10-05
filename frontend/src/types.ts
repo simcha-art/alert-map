@@ -9,4 +9,8 @@ interface Alert {
     lat: number
 }
 
-export type { Alert }
+interface MyError extends Error {
+    status?: number
+}
+
+export type { Alert, MyError }
