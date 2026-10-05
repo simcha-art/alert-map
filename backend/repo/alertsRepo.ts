@@ -1,6 +1,6 @@
 import { ObjectId } from "mongodb";
 import { collection } from "../db/db-conn.js";
-import type { Alert } from "../types.js";
+import type { Alert, MyError } from "../types.js";
 
 
 
@@ -43,6 +43,9 @@ export const repo = {
     getById: async (id: string) => {
         const _id = new ObjectId(id)
         const doc = await collection?.findOne({ _id })
+        if (!doc) {
+            return false
+        }
         return {...doc, _id: doc?._id.toString()}
     },
 }
