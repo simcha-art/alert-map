@@ -1,7 +1,10 @@
 import type { Alert } from "../types"
 
+interface CardProp {
+    alert: Alert
+}
 
-function AlertCard(alert: Alert) {
+function AlertCard({alert}: CardProp) {
     const isSever = alert.status === "Active" && alert.priority === "Critical"
     const isHandled = alert.status === "Handled"
   return (
