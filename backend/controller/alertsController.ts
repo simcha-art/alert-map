@@ -2,7 +2,7 @@ import type { Request, Response, NextFunction } from 'express'
 import { repo } from '../repo/alertsRepo.ts'
 import z from 'zod'
 import type { MyError } from '../types.js'
-import { validUpdate, ALERT_FEILDS } from "../service/service.ts"
+import { validUpdate, ALERT_FEILDS } from "../service/alertsService.ts"
 import { ObjectId } from 'mongodb'
 
 const AlertSchema = z.object({
