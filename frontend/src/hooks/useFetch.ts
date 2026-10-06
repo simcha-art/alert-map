@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import type { Alert, MyError } from "../types";
 
 export function useFetch<T>(id : string = "") {
+    const token = localStorage.getItem("token")
     if (id) {
         id = "/" + id
     }
@@ -12,7 +13,11 @@ export function useFetch<T>(id : string = "") {
 
     useEffect(() => {
         console.log("fetching...")
-        fetch(baseUrl + id)
+        fetch(baseUrl + id, {
+            headers: {
+                "authorization": `Bearer ${token}`
+            }
+        })
         .then(res => {
             if (!res.ok) {
                 console.log({res})
