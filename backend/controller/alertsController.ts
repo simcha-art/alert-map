@@ -12,7 +12,8 @@ const AlertSchema = z.object({
     arena: z.enum(["North", "South", "Center"]),
     status: z.enum(["Active", "Handled"]),
     lon: z.number(),
-    lat: z.number()
+    lat: z.number(),
+    createdAt: z.string()
 })
 
 
