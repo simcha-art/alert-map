@@ -37,4 +37,6 @@
 422 => for id which cannot be changed to ObjectId => unprocessable
 400 => in create and update alerts, if the feild should not be in the alert, or if the type isn't fit the required type.
 404 => for updating, deleting or getting alert that doesn't exist
+401 => when the user has no token, he is unauthenticated
+403 => when the user has token, but he has no permission to do the operation
 500 => internal server error, which is not the user's fault
