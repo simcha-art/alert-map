@@ -1,12 +1,14 @@
 import { ObjectId } from "mongodb";
 import { usersCollection } from "../db/db-conn.js";
 import type { User } from "../types.js";
+import bcrypt from 'bcrypt'
 
 
 
 export const repo = {
     create: async (user: User) => {
         try {
+            user.password = await bcrypt.hash(user.password, 10)
             const result = await usersCollection?.insertOne(user)
             user.id = result?.insertedId.toString()
             return user
@@ -38,7 +40,7 @@ export const repo = {
     getAll: async () => {
         const result = await usersCollection?.find()
         const docsList = await result?.toArray()
-        return docsList?.map(doc => ({...doc, id: doc._id.toString()}))
+        return docsList?.map(doc => ({ ...doc, id: doc._id.toString() }))
     },
     getById: async (id: string) => {
         const _id = new ObjectId(id)
@@ -46,6 +48,18 @@ export const repo = {
         if (!doc) {
             return false
         }
-        return {...doc, id: doc?._id.toString()}
+        return { ...doc, id: doc?._id.toString() }
     },
+    getByEmailAndPwd: async (email: string, password: string) => {
+        const user = await usersCollection?.findOne({ email })
+        if (!user) {
+            return false
+        }
+        const isCorrectPwd = await bcrypt.compare(password, user.password)
+        if (!isCorrectPwd) return false
+        return user
+
+    }
 }
+
+
