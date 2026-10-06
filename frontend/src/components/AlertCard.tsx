@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom"
 import type { Alert } from "../types"
 import "./css/AlertCard.css"
 
@@ -6,6 +7,7 @@ interface CardProp {
 }
 
 function AlertCard({alert}: CardProp) {
+    const navigate = useNavigate()
     const isSever = alert.status === "Active" && alert.priority === "Critical"
     const isHandled = alert.status === "Handled"
   return (
@@ -18,6 +20,7 @@ function AlertCard({alert}: CardProp) {
             <p>arena: {alert.arena}</p>
             <p>display name: {alert.displayName}</p>
         </div>
+        <button onClick={() => navigate(`/details/${alert.id}`)}>Show</button>
     </article>
   )
 }

@@ -1,0 +1,25 @@
+.alert-details-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    width: 70vw;
+    height: 80vh;
+    margin-inline: auto;
+    background-color: aliceblue;
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 1rem;
+}
+
+.alert-details-header {
+    display: flex;
+    justify-content: space-around;
+    color: blue;;
+}
+
+.alert-details-footer-map {
+    border-radius: 10px;
+    border: 1px solid gray;
+    padding: 5px;
+    margin-bottom: 5px;
+}
