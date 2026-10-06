@@ -32,6 +32,7 @@ function NewAlertForm() {
                     status,
                     lat,
                     lon,
+                    createdAt: new Date().toISOString()
                 }),
             });
             if (!response.ok) {
@@ -48,9 +49,9 @@ function NewAlertForm() {
             setLoading(false);
             setName("");
             setDescription("");
-            setArena("");
-            setPriority("");
-            setStatus("");
+            setArena("Center");
+            setPriority("Low");
+            setStatus("Active");
             setLat(0);
             setLon(0);
         }
@@ -75,13 +76,13 @@ function NewAlertForm() {
                     onChange={(e) => setName(e.target.value)}
                 />
                 <label htmlFor="description">description</label>
-                <input
-                    type="text"
+                <textarea
+                    rows={6}
                     id="description"
                     value={description}
                     required
-                    onChange={(e) => setDescription(e.target.value)}
-                />
+                    onChange={(e) => setDescription(e.target.value)}>
+                </textarea>
                 <label htmlFor="priority">priority</label>
                 <select
                     id="priority"
@@ -129,6 +130,7 @@ function NewAlertForm() {
                     type="number"
                     step={0.1}
                     id="lat"
+                    defaultValue={0}
                     value={lat}
                     onChange={(e) => setLat(+e.target.value)}
                     required
@@ -137,6 +139,7 @@ function NewAlertForm() {
                 <label htmlFor="lon">longitude</label>
                 <input
                     type="number"
+                    defaultValue={0}
                     step={0.1}
                     id="lon"
                     value={lon}

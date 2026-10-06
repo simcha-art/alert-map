@@ -1,21 +1,20 @@
-import { useFetch } from "../hooks/useFetch.ts";
+import { useAlertsStore } from "../store/useAlertsStore.ts";
 import type { Alert } from "../types.ts";
 import AlertCard from "./AlertCard.tsx";
-function AlertsList() {
-    const result = useFetch();
-    const { loading, error } = result;
-    let data = result.data as Alert[];
 
-    if (loading) return (<p className="loading-message">loading...</p>);
-    if (error) return (<p className="error-message">Error occured: {error}</p>);
-    console.log(data)
+interface Props {
+    alertsList: Alert[];
+}
+
+function AlertsList() {
+    const show = useAlertsStore(state => state.show())
     return (
         <>
-            {data.length > 0 ? (
+            {show.length > 0 ? (
                 <ul>
-                    {data.map((alert) => 
-                         <AlertCard alert={alert} key={alert.id} />
-                    )}
+                    {show.map((alert) => (
+                        <AlertCard alert={alert} key={alert.id} />
+                    ))}
                 </ul>
             ) : (
                 <p>There are no alerts yet</p>
