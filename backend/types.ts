@@ -1,4 +1,5 @@
 interface Alert {
+    id?: string
     displayName: string,
     description: string,
     priority: "Low" | "Medium" | "High" | "Critical",
