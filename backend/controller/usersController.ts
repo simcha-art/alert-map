@@ -8,15 +8,13 @@ import env from 'dotenv'
 
 env.config()
 
-const JWT_SECRET = process.env.JWT_SECRET
-console.log(JWT_SECRET)
 
 const UserSchema = z.object({
     username: z.string(),
     password: z.string(),
     email: z.email(),
     role: z.enum(["arena_user", "general_user", "admin"]),
-    assignedArea: z.enum(["North", "South", "Center", "All"])
+    assignedArena: z.enum(["North", "South", "Center", "All"])
 })
 
 
@@ -83,15 +81,15 @@ async function login(req: Request, res: Response, next: NextFunction) {
     try {
         const { email, password } = req.body
         const user: User = await repo.getByEmailAndPwd(email, password)
-        const { username, role, assignedArea, } = user
-        const payload = { username, email, role, assignedArea }
+        const { username, role, assignedArena, } = user
+        const payload = { username, email, role, assignedArena }
         const accessToken = jwt.sign(payload, process.env.JWT_SECRET as string, {expiresIn: "15m"})
         if (!user) {
             const err: MyError = new Error(`Wrong email or password`)
             err.status = 404
             throw err
         }
-
+        console.log(accessToken)
         res.json({ data: accessToken })
     } catch (error) {
         next(error)

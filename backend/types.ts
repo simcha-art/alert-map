@@ -19,7 +19,7 @@ interface User {
     password: string
     email: string
     role: "arena_user" | "general_user" | "admin"
-    assignedArea: "North" | "South" | "Center" | "All"
+    assignedArena: "North" | "South" | "Center" | "All"
 }
 
 

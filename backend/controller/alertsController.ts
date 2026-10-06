@@ -21,6 +21,7 @@ const AlertSchema = z.object({
 async function getAllAlerts(req: Request, res: Response, next: NextFunction) {
     try {
         let alerts: Alert[] = await repo.getAll()
+        console.log(req.user)
         if (req.user.assignedArena !== "All") {
             alerts = alerts.filter(alert => alert.arena === req.user.assignedArena)
         }
