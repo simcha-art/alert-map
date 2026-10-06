@@ -1,7 +1,7 @@
 import type { Request, Response, NextFunction } from 'express'
 import { repo } from '../repo/alertsRepo.ts'
 import z from 'zod'
-import type { MyError } from '../types.js'
+import type { Alert, MyError } from '../types.js'
 import { validUpdate, ALERT_FEILDS } from "../service/alertsService.ts"
 import { ObjectId } from 'mongodb'
 
@@ -20,7 +20,11 @@ const AlertSchema = z.object({
 
 async function getAllAlerts(req: Request, res: Response, next: NextFunction) {
     try {
-        res.json({ data: await repo.getAll() })
+        let alerts: Alert[] = await repo.getAll()
+        if (req.user.assignedArena !== "All") {
+            alerts = alerts.filter(alert => alert.arena === req.user.assignedArena)
+        }
+        res.json({ data: alerts })
     } catch (error) {
         next(error)
     }
@@ -39,10 +43,15 @@ async function getAlertById(req: Request, res: Response, next: NextFunction) {
             throw err
         }
 
-        const doc = await repo.getById(id as string)
+        const doc: Alert = await repo.getById(id as string)
         if (!doc) {
             err = new Error(`alert ${id} not found`)
             err.status = 404
+            throw err
+        }
+        if (!["All", req.user.assignedArena].includes(doc.arena)) {
+            err = new Error("permission denied, this alert is out of your arena")
+            err.status = 403
             throw err
         }
         res.json({ data: doc })
@@ -53,9 +62,16 @@ async function getAlertById(req: Request, res: Response, next: NextFunction) {
 
 async function createNewAlert(req: Request, res: Response, next: NextFunction) {
     try {
+        let err: MyError;
+        // יוצא מנקודת הנחה שחייל זירה ואדמין יכול לפתוח התראות וחייל כללי לא
+        if (req.user.role === "general_user") {
+            err = new Error("permission denied")
+            err.status = 403
+            throw err
+        }
         const result = AlertSchema.safeParse(req.body)
         if (!result.success) {
-            const err: MyError = new Error(result.error.message)
+            err = new Error(result.error.message)
             err.status = 400
             throw err
         }
@@ -78,6 +94,16 @@ async function updateAlert(req: Request, res: Response, next: NextFunction) {
             throw err
         }
 
+        // בודק אם זה חייל כללי. אם כן => מותר לו לעדכן רק סטטוס ולא דברים אחרים
+        if (req.user.role === "general_user") {
+            const { status } = req.body
+            if (!status || Object.keys(req.body).length > 1) {
+                err = new Error("permission denied, you can update only status")
+                err.status = 403
+                throw err
+            }
+        }
+
         const validData = validUpdate(req.body)
         if (!validData) {
             err = new Error(`Invalid feild, only [${ALERT_FEILDS}] are valid`)
@@ -98,8 +124,15 @@ async function updateAlert(req: Request, res: Response, next: NextFunction) {
 
 async function deleteAlert(req: Request, res: Response, next: NextFunction) {
     try {
-        const { id } = req.params
         let err: MyError;
+        // מונע מחייל כללי למחוק התראות כי זה לא בסמכותו, מותר לו רק לצפות או לשנות סטטוס
+        if (req.user.role === "general_user") {
+            err = new Error("permission denied")
+            err.status = 403
+            throw err
+        }
+
+        const { id } = req.params
         try {
             const _id = new ObjectId(id)
         } catch (error) {

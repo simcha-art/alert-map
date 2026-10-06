@@ -6,11 +6,12 @@ import {
     getAllAlerts,
     getAlertById,
 } from "../controller/alertsController.ts";
+import { adminAuth, authentication } from "../middleware/authentication.ts";
 
 export const route = express.Router();
 
-route.get("/", getAllAlerts);
-route.get("/:id", getAlertById);
-route.post("/", createNewAlert);
-route.delete("/:id", deleteAlert);
-route.put("/:id", updateAlert);
+route.get("/",authentication , getAllAlerts);
+route.get("/:id", authentication, getAlertById);
+route.post("/", authentication, createNewAlert);
+route.delete("/:id", authentication ,deleteAlert);
+route.put("/:id", authentication ,updateAlert);
