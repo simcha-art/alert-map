@@ -1,15 +1,15 @@
 import { ObjectId } from "mongodb";
-import { collection } from "../db/db-conn.js";
-import type { Alert, MyError } from "../types.js";
+import { usersCollection } from "../db/db-conn.js";
+import type { User } from "../types.js";
 
 
 
 export const repo = {
-    create: async (alert: Alert) => {
+    create: async (user: User) => {
         try {
-            const result = await collection?.insertOne(alert)
-            alert.id = result?.insertedId.toString()
-            return alert
+            const result = await usersCollection?.insertOne(user)
+            user.id = result?.insertedId.toString()
+            return user
         } catch (error) {
             console.error("Error while inserting to mongodb")
             console.error(error)
@@ -18,7 +18,7 @@ export const repo = {
     update: async (id: string, data: object) => {
         try {
             const _id = new ObjectId(id)
-            const result = await collection?.updateOne({ _id }, { $set: data })
+            const result = await usersCollection?.updateOne({ _id }, { $set: data })
             return result.modifiedCount > 0
         } catch (error) {
             console.error('Error while updating to mongodb ')
@@ -28,7 +28,7 @@ export const repo = {
     delete: async (id: string) => {
         try {
             const _id = new ObjectId(id)
-            const result = await collection?.deleteOne({ _id })
+            const result = await usersCollection?.deleteOne({ _id })
             return result.deletedCount > 0
         } catch (error) {
             console.error("Error while deleting from mongodb")
@@ -36,13 +36,13 @@ export const repo = {
         }
     },
     getAll: async () => {
-        const result = await collection?.find()
+        const result = await usersCollection?.find()
         const docsList = await result?.toArray()
         return docsList?.map(doc => ({...doc, id: doc._id.toString()}))
     },
     getById: async (id: string) => {
         const _id = new ObjectId(id)
-        const doc = await collection?.findOne({ _id })
+        const doc = await usersCollection?.findOne({ _id })
         if (!doc) {
             return false
         }
