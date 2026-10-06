@@ -1,5 +1,5 @@
 import express from 'express'
-import { route as alertsRoute } from './router/alerts-route.js'
+import { route as alertsRoute } from './router/alertsRoute.js'
 import env from 'dotenv'
 import { logger } from './middleware/logger.ts'
 import { errorHandler } from './middleware/errorHandler.ts'
