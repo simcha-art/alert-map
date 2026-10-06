@@ -1,8 +1,15 @@
 import type { Request, Response, NextFunction } from 'express'
 import { repo } from '../repo/usersRepo.ts'
 import z from 'zod'
-import type { MyError } from '../types.js'
+import type { MyError, User } from '../types.js'
 import { ObjectId } from 'mongodb'
+import jwt from "jsonwebtoken"
+import env from 'dotenv'
+
+env.config()
+
+const JWT_SECRET = process.env.JWT_SECRET
+console.log(JWT_SECRET)
 
 const UserSchema = z.object({
     username: z.string(),
@@ -22,26 +29,9 @@ async function getAllUsers(req: Request, res: Response, next: NextFunction) {
     }
 }
 
-async function getUserById(req: Request, res: Response, next: NextFunction) {
+async function getActiveUser(req: Request, res: Response, next: NextFunction) {
     try {
-        let err: MyError;
-        const { id } = req.params
-        // validation that id can be transmitted to objectId
-        try {
-            const _id = new ObjectId(id)
-        } catch (error) {
-            err = new Error("Invalid id, id is a string of ObjectId")
-            err.status = 422
-            throw err
-        }
-
-        const doc = await repo.getById(id as string)
-        if (!doc) {
-            err = new Error(`User ${id} not found`)
-            err.status = 404
-            throw err
-        }
-        res.json({ data: doc })
+        res.json({ data: req.user })
     } catch (error) {
         next(error)
     }
@@ -89,4 +79,24 @@ async function deleteUser(req: Request, res: Response, next: NextFunction) {
     }
 }
 
-export { getUserById, getAllUsers, createNewUser, deleteUser }
+async function login(req: Request, res: Response, next: NextFunction) {
+    try {
+        const { email, password } = req.body
+        const user: User = await repo.getByEmailAndPwd(email, password)
+        const { username, role, assignedArea, } = user
+        const payload = { username, email, role, assignedArea }
+        const accessToken = jwt.sign(payload, process.env.JWT_SECRET as string)
+        if (!user) {
+            const err: MyError = new Error(`Wrong email or password`)
+            err.status = 404
+            throw err
+        }
+
+        res.json({ data: accessToken })
+    } catch (error) {
+        next(error)
+    }
+}
+
+
+export { getActiveUser, getAllUsers, createNewUser, deleteUser, login }
