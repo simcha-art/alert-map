@@ -1,10 +1,6 @@
 import { useState } from "react"
+import "./css/NewUserForm.css"
 
-`username: string
-    email: string
-    role: "arena_user" | "general_user" | "admin"
-    assignedArena: "North" | "South" | "Center" | "All"
-`
 function NewUserForm() {
     const token = localStorage.getItem("token")
     const [loading, setLoading] = useState(false)
@@ -22,9 +18,9 @@ function NewUserForm() {
             },
             body: JSON.stringify(data)
         })
-        .then(res => {
+        .then(async res => {
             if (!res.ok) {
-                const err = new Error(`Http Error, status: ${res.status}, message: ${res.json().then(err => err.err)}`)
+                const err = new Error(`Http Error, status: ${res.status}, message: ${ await res.json().then(err => err.err)}`)
                 err.status = res.status
                 throw err
             }
@@ -38,7 +34,7 @@ function NewUserForm() {
         .finally(() => setLoading(false))
     }
   return (
-    <form onSubmit={e => {
+    <form className="form-new-user" onSubmit={e => {
         e.preventDefault()
         const form = e.target
         const formData = new FormData(form)
@@ -49,6 +45,8 @@ function NewUserForm() {
         <input type="text" name="username" id="username" required/>
         <label htmlFor="email">email</label>
         <input type="email" name="email" id="email" required/>
+        <label htmlFor="password">password</label>
+        <input type="text" name="password" id="password" />
         <label htmlFor="role">role</label>
         <select name="role" id="role">
             <option value="arena_user">arena user</option>

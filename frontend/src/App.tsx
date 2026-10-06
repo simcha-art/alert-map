@@ -6,6 +6,7 @@ import AlertDetailed from "./components/AlertDetailed";
 import UpdateAlert from "./components/UpdateAlert";
 import LoginPage from "./users/pages/LoginPage";
 import Protected from "./pages/Protected";
+import AdminPage from "./users/pages/AdminPage";
 function App() {
     return (
         <>
@@ -16,6 +17,7 @@ function App() {
                         <Route element={<MainLayout />}>
                             <Route path="/" element={<Home />} />
                             <Route path="/new-alert" element={<NewAlert />} />
+                            <Route path="/admin" element={<AdminPage />}/>
                             <Route
                                 path="/details/:id"
                                 element={<AlertDetailed />}

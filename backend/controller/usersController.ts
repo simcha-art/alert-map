@@ -83,7 +83,7 @@ async function login(req: Request, res: Response, next: NextFunction) {
         const user: User = await repo.getByEmailAndPwd(email, password)
         const { username, role, assignedArena, } = user
         const payload = { username, email, role, assignedArena }
-        const accessToken = jwt.sign(payload, process.env.JWT_SECRET as string, {expiresIn: "15m"})
+        const accessToken = jwt.sign(payload, process.env.JWT_SECRET as string)
         if (!user) {
             const err: MyError = new Error(`Wrong email or password`)
             err.status = 404
