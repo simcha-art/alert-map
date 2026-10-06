@@ -2,7 +2,20 @@
     display: flex;
     gap: 1rem;
     justify-content: center;
+    align-items: center;
     padding: 1rem;
+}
+
+.header-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
     background-color: rgb(249, 249, 204);
+    align-items: center;
+    padding: 1rem;
     margin-bottom: 1rem;
+}
+
+.user-details-container {
+    color: black;
 }

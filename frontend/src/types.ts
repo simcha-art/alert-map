@@ -14,4 +14,12 @@ interface MyError extends Error {
     status?: number
 }
 
-export type { Alert, MyError }
+interface User {
+    username: string
+    email: string
+    role: "arena_user" | "general_user" | "admin"
+    assignedArena: "North" | "South" | "Center" | "All"
+}
+
+
+export type { Alert, MyError, User }
