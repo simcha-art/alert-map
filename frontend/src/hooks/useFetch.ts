@@ -1,16 +1,17 @@
 import { useEffect, useState } from "react";
 import type { Alert, MyError } from "../types";
 
-export function useFetch(id : string = "") {
+export function useFetch<T>(id : string = "") {
     if (id) {
         id = "/" + id
     }
     const baseUrl = "http://localhost:3000/api/alerts"
     const [loading, setLoading] = useState<boolean>(true)
     const [error, setError] = useState<string>("")
-    const [data, setData] = useState<Alert | Alert[]>()
+    const [data, setData] = useState<T>()
 
     useEffect(() => {
+        console.log("fetching...")
         fetch(baseUrl + id)
         .then(res => {
             if (!res.ok) {
@@ -27,7 +28,7 @@ export function useFetch(id : string = "") {
             setError(error)
         })
         .finally(() => setLoading(false))
-    }, [baseUrl])
+    }, [id])
 
     return {loading, error, data}
 
