@@ -12,12 +12,13 @@ async function connect() {
         await client.connect();
         const database = client.db("alerts");
         const collection = database.collection("alerts");
-        return collection;
+        const usersCollection = database.collection("users");
+        return { collection, usersCollection };
     } catch (error) {
         console.log(error);
         await client.close();
     }
 }
 
-const collection = await connect();
-export { collection };
+const { collection, usersCollection } = await connect();
+export { collection, usersCollection };
