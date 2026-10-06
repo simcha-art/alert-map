@@ -1,8 +1,10 @@
 import { useState } from "react";
 import type { Alert } from "../types.ts";
 import "./css/NewAlertForm.css"
+import { useAlertsStore } from "../store/useAlertsStore.ts";
 
 function NewAlertForm() {
+    const addAlert = useAlertsStore().addAlert
     const [displayName, setName] = useState<string>("");
     const [description, setDescription] = useState<string>("");
     const [priority, setPriority] = useState<
@@ -42,6 +44,7 @@ function NewAlertForm() {
             }
 
             setData(await response.json());
+            addAlert(data)
         } catch (error) {
             console.error(error);
             setError(error.message);

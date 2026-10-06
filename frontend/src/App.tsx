@@ -2,6 +2,8 @@ import { BrowserRouter, Route, Router, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import NewAlert from "./pages/NewAlert";
 import MainLayout from "./components/MainLayout";
+import AlertDetailed from "./components/AlertDetailed";
+import UpdateAlert from "./components/UpdateAlert";
 function App() {
     return (
         <>
@@ -10,6 +12,8 @@ function App() {
                     <Route element={<MainLayout />}>
                         <Route path="/" element={<Home />} />
                         <Route path="/new-alert" element={<NewAlert />} />
+                        <Route path="/details/:id" element={<AlertDetailed />}/>
+                        <Route path="/update/:id" element={<UpdateAlert />}/>
                     </Route>
                 </Routes>
             </BrowserRouter>

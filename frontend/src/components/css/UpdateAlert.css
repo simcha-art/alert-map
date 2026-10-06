@@ -1,0 +1,13 @@
+.update-main-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+}
+
+.update-alert-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    width: 50vw;
+    margin-inline: auto;
+}
